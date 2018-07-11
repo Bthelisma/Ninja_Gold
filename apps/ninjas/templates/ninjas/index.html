@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'ninjas/style.css' %}">
+    <title>Ninja Gold</title>
+  </head>
+  <body>
+    <h1>Your Goal: {{request.session.total_gold}}</h1>
+
+    <div class="red">
+      <form class="black"action="/process_money/farm" method="post">
+        {%csrf_token%}
+        <label for="farm">Farm</label>
+        <p>(earn 10-20 golds)</p>
+        <input type="submit" value="Find Gold">
+      </form>
+
+      <form class="black"action="/process_money/cave" method="post">
+        {%csrf_token%}
+        <label for="cave">Cave</label>
+        <p>(earn 5-10 golds)</p>
+        <input type="submit" value="Find Gold">
+      </form>
+
+      <form class="black"action="/process_money/house" method="post">
+        {%csrf_token%}
+        <label for="house">House</label>
+        <p>(earn 2-5 golds)</p>
+        <input type="submit" value="Find Gold">
+      </form>
+
+      <form class="black" action="/process_money/casino" method="post">
+        {%csrf_token%}
+        <label for="casino">Casino</label>
+        <p>(earn 0-50 golds)</p>
+        <input type="submit" value="Find Gold">
+      </form>
+    </div>
+
+    <h5>Activities:</h5>
+    <div class="message-log">
+            {% for log in request.session.logs reversed %}
+               
+              <p class='{{ log.class }}'style="color: {{log.color}}">{{ log.message }}</p>
+            {% endfor %}
+    </div>
+     <form  action="/reset" method="post">
+         {%csrf_token%}
+         <input type="submit" value="Reset">
+     </form>
+  </body>
+</html>
